@@ -16,10 +16,16 @@ export const fetchPlugin = (inputCode: string) => {
                 };
             });
 
-            build.onLoad({ filter: /.css$/ }, async (args: any) => {
+            // Dummy onLoad to run common code to to following onLoads below and prevent duplication
+            // Therefore we use a generic filter so this runs for all cases essentially
+            // If anything is returned then NO other onLoads run but if nothing returned then the following onLoads are run
+            build.onLoad({ filter: /.*/ }, async (args: any) => {
                 // Check to see if we already have the fetched data in browser storage cache
                 const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
                 if (cachedResult) return cachedResult;
+            });
+
+            build.onLoad({ filter: /.css$/ }, async (args: any) => {
 
                 // If not in cache then fetch it and also store in cache for future!
                 const { data, request } = await axios.get(args.path);
@@ -44,10 +50,6 @@ export const fetchPlugin = (inputCode: string) => {
 
             build.onLoad({ filter: /.*/ }, async (args: any) => {
                 console.log("onLoad", args);
-                
-                // Check to see if we already have the fetched data in browser storage cache
-                const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
-                if (cachedResult) return cachedResult;
 
                 // If not in cache then fetch it and also store in cache for future!
                 const { data, request } = await axios.get(args.path);
