@@ -1,7 +1,8 @@
 import * as esbuild from "esbuild-wasm";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const App = () => {
+    const ref = useRef<any>();
     const [ input, setInput ] = useState("");
     const [ code, setCode ] = useState("");
 
@@ -11,15 +12,23 @@ const App = () => {
 
     const startService = async () => {
         // initialise esbuid to fetch the bundle from public folder
-        const service = await esbuild.startService({
+        ref.current = await esbuild.startService({
             worker: true,
             wasmURL: "/esbuild.wasm"
         });
-        console.log(service);
+        console.log(ref);
     };
 
-    const handleClick = () => {
+    const handleClick = async () => {
         console.log(input);
+        if(!ref.current) return;
+        // console.log(ref.current);
+        const result = await ref.current.transform(input, {
+            loader: "jsx",
+            target: "es2015"
+        });
+        // console.log(result);
+        setCode(result.code);
     };
 
     return (
