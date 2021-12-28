@@ -40,7 +40,7 @@ const App = () => {
 
     return (
         <div>
-            <textarea value={input} onChange={(e) => setInput(e.target.value)} />
+            <textarea style={{ width: "50vw", height: "10vh" }} value={input} onChange={(e) => setInput(e.target.value)} />
             <button onClick={handleClick}>Submit</button>
             <pre>{ code }</pre>
         </div>
