@@ -18,7 +18,7 @@ const App = () => {
             worker: true,
             wasmURL: "https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm"
         });
-        console.log(ref);
+        // console.log(ref);
     };
 
     const handleClick = async () => {
@@ -42,11 +42,18 @@ const App = () => {
         setCode(result.outputFiles[0].text);
     };
 
+    const html = `
+        <script>
+            ${code}
+        </script>
+    `;
+
     return (
         <div>
             <textarea style={{ width: "50vw", height: "10vh" }} value={input} onChange={(e) => setInput(e.target.value)} />
             <button onClick={handleClick}>Submit</button>
             <pre>{ code }</pre>
+            <iframe sandbox="allow-scripts" srcDoc={html} />
         </div>
     );
 };
