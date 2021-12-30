@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@monaco-editor/react": "3.7.5",
+    "@monaco-editor/react": "^3.7.5",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -16,7 +16,7 @@
     "axios": "^0.24.0",
     "bulmaswatch": "^0.8.1",
     "esbuild-wasm": "0.8.27",
-    "jscodeshift": "0.11.0",
+    "jscodeshift": "^0.11.0",
     "localforage": "^1.10.0",
     "monaco-editor": "^0.21.2",
     "monaco-jsx-highlighter": "0.0.15",

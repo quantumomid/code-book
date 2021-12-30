@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
-import CodeShift from "jscodeshift";
-import Highlighter from "monaco-jsx-highlighter";
+// import Highlighter from "monaco-jsx-highlighter";
+// import codeShift from 'jscodeshift'
 import "./CodeEditor.css";
 
 
@@ -28,6 +28,21 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
         });
         // Change tab space to 2 spaces instead of default of 4
         monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
+
+        // Not working - packages for syntax highlighting
+        // // For syntax highlighting for JSX
+        // const highlighter = new Highlighter(
+        //     // @ts-ignore
+        //     window.monaco,
+        //     codeShift,
+        //     monacoEditor
+        //   );
+        //   highlighter.highLightOnDidChangeModelContent(
+        //     () => {},
+        //     () => {},
+        //     undefined,
+        //     () => {}
+        //   );
     };
 
     const handleFormat = () => {
