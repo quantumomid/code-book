@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
+import "./CodeEditor.css";
 
 interface CodeEditorProps {
     initialValue: string;
@@ -38,14 +39,14 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
             useTabs: false,
             semi: true,
             singleQuote: false,
-        });
+        }).replace(/\n$/, "");
 
         // Set the formatted value back into the editor!
         editorRef.current.setValue(formattedValue);
     };
 
     return (
-        <div>
+        <div className="editor-wrapper">
             <button 
                 className="button button-format is-primary is-small" 
                 onClick={handleFormat}>
