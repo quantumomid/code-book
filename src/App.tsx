@@ -7,7 +7,6 @@ const App = () => {
     const ref = useRef<any>();
     const iframe = useRef<any>();
     const [ input, setInput ] = useState("");
-    const [ code, setCode ] = useState("");
 
     useEffect(() => {
         startService();
@@ -26,6 +25,10 @@ const App = () => {
         // console.log(input);
         if(!ref.current) return;
         // console.log(ref.current);
+
+        // Reset the iframe 
+        iframe.current.srcdoc = html;
+
         const result = await ref.current.build({
             entryPoints: ["index.js"],
             bundle: true,
@@ -40,7 +43,6 @@ const App = () => {
             },
         });
         // console.log(result);
-        // setCode(result.outputFiles[0].text);
         iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
     };
 
@@ -71,8 +73,7 @@ const App = () => {
         <div>
             <textarea style={{ width: "50vw", height: "10vh" }} value={input} onChange={(e) => setInput(e.target.value)} />
             <button onClick={handleClick}>Submit</button>
-            <pre>{ code }</pre>
-            <iframe ref={iframe} sandbox="allow-scripts" srcDoc={html} />
+            <iframe title="code-preview" ref={iframe} sandbox="allow-scripts" srcDoc={html} />
         </div>
     );
 };
