@@ -1,5 +1,5 @@
 import React from "react";
-import MonacoEditor from "@monaco-editor/react";
+import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 
 interface CodeEditorProps {
     initialValue: string;
@@ -11,12 +11,14 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
     // editorDidMount ONLY runs when editor first displayed on screen
     // First parameter is a callback that gives the current value
     // Second parameter is a reference to actual editor - therefore use this to keep track of changes made
-    const handleEditorDidMount = (getValue: () => string, monacoEditor: any) => {
+    const handleEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
         // console.log(getValue());
         monacoEditor.onDidChangeModelContent(() => {
             // console.log(getValue());
             onChange(getValue());
         });
+        // Change tab space to 2 spaces instead of default of 4
+        monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
     };
 
     return (
