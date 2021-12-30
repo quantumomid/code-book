@@ -5,6 +5,7 @@ import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 
 const App = () => {
     const ref = useRef<any>();
+    const iframe = useRef<any>();
     const [ input, setInput ] = useState("");
     const [ code, setCode ] = useState("");
 
@@ -39,13 +40,23 @@ const App = () => {
             },
         });
         // console.log(result);
-        setCode(result.outputFiles[0].text);
+        // setCode(result.outputFiles[0].text);
+        iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
     };
 
     const html = `
-        <script>
-            ${code}
-        </script>
+        <html>
+            <head></head>
+            <body>
+                <div id="root"></div>
+                <script>
+                    window.addEventListener("message", (event) => {
+                        // console.log(event.data);
+                        eval(event.data);
+                    }, false);
+                </script>
+            </body>
+        </html>
     `;
 
     return (
@@ -53,7 +64,7 @@ const App = () => {
             <textarea style={{ width: "50vw", height: "10vh" }} value={input} onChange={(e) => setInput(e.target.value)} />
             <button onClick={handleClick}>Submit</button>
             <pre>{ code }</pre>
-            <iframe sandbox="allow-scripts" srcDoc={html} />
+            <iframe ref={iframe} sandbox="allow-scripts" srcDoc={html} />
         </div>
     );
 };
