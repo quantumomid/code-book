@@ -8,6 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Monaco Editor 
 - UNPKG
 - ESBuild WASM
+- [React-resizable](https://www.npmjs.com/package/react-resizable) for allow horizontal and vertical resizing of the code editor and code cells respectively. 
 
 ## Available Scripts
 
