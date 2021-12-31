@@ -3,6 +3,7 @@ import "./CodePreview.css";
 
 interface CodePreviewProps {
     code: string;
+    bundlingError: string;
 }
 
 const html = `
@@ -41,7 +42,7 @@ const html = `
 </html>
 `;
 
-const CodePreview: React.FC<CodePreviewProps> = ({ code }) => {
+const CodePreview: React.FC<CodePreviewProps> = ({ code, bundlingError }) => {
     const iframe = useRef<any>();
 
     // Reset iframe whenever code changes
@@ -52,9 +53,12 @@ const CodePreview: React.FC<CodePreviewProps> = ({ code }) => {
         }, 100);
     }, [code]);
 
+    console.log(bundlingError);
+
     return (
         <div className="code-preview-wrapper">
             <iframe className="code-preview-iframe" title="code-preview" ref={iframe} sandbox="allow-scripts" srcDoc={html} />
+            { bundlingError &&  <div className="preview-error">{ bundlingError }</div>}
         </div>    
     )
 

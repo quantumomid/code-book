@@ -20,3 +20,10 @@
     height: 100%;
     width: 100%;
 }
+
+.code-preview-wrapper .preview-error {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: red;
+}
