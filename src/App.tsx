@@ -1,13 +1,14 @@
 import * as esbuild from "esbuild-wasm";
 import React, { useState, useEffect, useRef } from "react";
 import CodeEditor from "./components/code-editor/CodeEditor";
+import CodePreview from "./components/preview/CodePreview";
 import { fetchPlugin } from "./plugins/fetch-plugin";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 
 const App = () => {
     const ref = useRef<any>();
-    const iframe = useRef<any>();
     const [ input, setInput ] = useState("");
+    const [ code, setCode ] = useState("");
 
     useEffect(() => {
         startService();
@@ -27,9 +28,6 @@ const App = () => {
         if(!ref.current) return;
         // console.log(ref.current);
 
-        // Reset the iframe 
-        iframe.current.srcdoc = html;
-
         const result = await ref.current.build({
             entryPoints: ["index.js"],
             bundle: true,
@@ -44,38 +42,14 @@ const App = () => {
             },
         });
         // console.log(result);
-        iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
+        setCode(result.outputFiles[0].text);
     };
-
-    const html = `
-        <html>
-            <head></head>
-            <body>
-                <div id="root"></div>
-                <script>
-                    window.addEventListener("message", (event) => {
-                        try {
-                            // console.log(event.data);
-                            eval(event.data);
-                        } catch(error) {
-                            const root = document.getElementById("root");
-                            root.innerHTML = '<div style="color: red;"><h4>Runtime Error:</h4>' + error + '</div>';
-                            throw error;
-                            // console.error(error);
-                        }
-
-                    }, false);
-                </script>
-            </body>
-        </html>
-    `;
 
     return (
         <div>
             <CodeEditor initialValue="const omid='omid';" onChange={(value) => setInput(value)} />
-            <textarea value={input} onChange={(e) => setInput(e.target.value)} />
+            <CodePreview code={code} />
             <button onClick={handleClick}>Submit</button>
-            <iframe title="code-preview" ref={iframe} sandbox="allow-scripts" srcDoc={html} />
         </div>
     );
 };
