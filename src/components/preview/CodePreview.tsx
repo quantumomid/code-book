@@ -36,7 +36,9 @@ const CodePreview: React.FC<CodePreviewProps> = ({ code }) => {
     // Reset iframe whenever code changes
     useEffect(() => {
         iframe.current.srcdoc = html;
-        iframe.current.contentWindow.postMessage(code, "*");
+        setTimeout(() => {
+            iframe.current.contentWindow.postMessage(code, "*");
+        }, 100);
     }, [code]);
 
     return (
