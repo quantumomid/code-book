@@ -31,6 +31,8 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             state.order[currentCellOrderIndex] = state.order[targetIndex];
             state.order[targetIndex] = action.payload.id;
 
+            // Can just do an empty return since we are using Immer but for the sake of TS and ensuring TS 
+            // doesnt get the type of the redux store state confused return state below
             return state;
         case CellsActionTypes.DELETE_CELL:
             // delete cell inside the order array
