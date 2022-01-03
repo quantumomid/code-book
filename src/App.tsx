@@ -1,9 +1,11 @@
 import React from "react";
 import CodeCell from "./components/code-cell/CodeCell";
+import TextEditor from "./components/text-editor/TextEditor";
 
-const App = () => {
+const App: React.FC = () => {
     return (
-        <CodeCell />
+        // <CodeCell />
+        <TextEditor />
     );
 };
 
