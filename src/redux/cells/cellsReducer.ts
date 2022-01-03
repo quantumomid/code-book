@@ -2,7 +2,7 @@ import { CellsActionTypes } from "./cellsActionTypes";
 import { Cell, Action } from "./cellsType";
 import produce from "immer";
 
-interface CellsState {
+export interface CellsState {
     loading: boolean;
     error: string | null;
     order: string[];
@@ -25,7 +25,9 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             const targetIndex = action.payload.direction === "up" ? currentCellOrderIndex-1 : currentCellOrderIndex+1;
 
             // Check to ensure the target index isnt outside the realms of the order array
-            if (targetIndex < 0 || targetIndex > state.order.length -1 ) return;
+            if (targetIndex < 0 || targetIndex > state.order.length -1 ) {
+                return state
+            };
 
             // Do the swap of the cells orders
             state.order[currentCellOrderIndex] = state.order[targetIndex];
@@ -66,7 +68,7 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
         default:
             return state;
     }
-})
+}, initialState)
 
 const randomId = () => {
     // Random number in string format with base 36 formatting 
