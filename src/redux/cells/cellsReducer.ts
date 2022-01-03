@@ -39,7 +39,25 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             delete state.data[action.payload];
             return;
         case CellsActionTypes.INSERT_CELL_BEFORE:
-            return state;
+            // basic type check with the Cell type 
+            const cell: Cell = {
+                content: "",
+                type: action.payload.type,
+                id: randomId()
+            }
+
+            state.data[cell.id] = cell;
+
+            const foundIndex = state.order.findIndex(cellId => cellId === action.payload.id);
+            //Take care of situation where no index found (findIndex returns -1 when no match found)
+            // Just push to end in that case
+            if(foundIndex < 0) {
+                state.order.push(cell.id)
+            } else{
+                state.order.splice(foundIndex, 0, cell.id);
+            };
+
+            return;
         case CellsActionTypes.UPDATE_CELL:
             state.data[action.payload.id].content =  action.payload.content;
             return;
@@ -47,5 +65,11 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             return state;
     }
 })
+
+const randomId = () => {
+    // Random number in string format with base 36 formatting 
+    // i.e. numbers 0-9 and letters a-z included 
+    return Math.random().toString(36).substr(2, 5);
+}
 
 export default cellsReducer;
