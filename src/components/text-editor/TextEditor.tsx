@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from "react";
 const TextEditor: React.FC = () => {
     const ref = useRef<HTMLDivElement | null>(null);
     const [ editing, setEditing ] = useState(false);
-    
+    const [ value, setValue ] = useState("# Whats up mate!");
+
     // Add event listener to watch for clicks outside the mark down editor to turn off
     // the editing mode
     useEffect(() => {
@@ -28,11 +29,13 @@ const TextEditor: React.FC = () => {
         }
     }, []);
 
-    if (editing) return <div className="text-editor" ref={ref}><MDEditor /></div>
+    if (editing) return <div className="text-editor" ref={ref}><MDEditor value={value} onChange={(v) => setValue(v || "")} /></div>
 
     return (
-        <div className="text-editor" onClick={() => setEditing(true)}>
-            <MDEditor.Markdown source={"# Salaam Habibi!"} />
+        <div className="text-editor card" onClick={() => setEditing(true)}>
+            <div className="card-content">
+                <MDEditor.Markdown source={value} />
+            </div>
         </div>
     )
 }
