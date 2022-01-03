@@ -21,9 +21,23 @@ const initialState: CellsState = {
 const cellsReducer = produce((state: CellsState = initialState, action: Action) => {
     switch(action.type) {
         case CellsActionTypes.MOVE_CELL:
-            return state;
+            const currentCellOrderIndex = state.order.findIndex((cellId) => cellId === action.payload.id);
+            const targetIndex = action.payload.direction === "up" ? currentCellOrderIndex-1 : currentCellOrderIndex+1;
+
+            // Check to ensure the target index isnt outside the realms of the order array
+            if (targetIndex < 0 || targetIndex > state.order.length -1 ) return;
+
+            // Do the swap of the cells orders
+            state.order[currentCellOrderIndex] = state.order[targetIndex];
+            state.order[targetIndex] = action.payload.id;
+
+            return;
         case CellsActionTypes.DELETE_CELL:
-            return state;
+            // delete cell inside the order array
+            state.order = state.order.filter(cellId => cellId !== action.payload);
+            // delete cell data from the data object
+            delete state.data[action.payload];
+            return;
         case CellsActionTypes.INSERT_CELL_BEFORE:
             return state;
         case CellsActionTypes.UPDATE_CELL:
