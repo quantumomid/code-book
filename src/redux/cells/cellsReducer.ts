@@ -31,13 +31,13 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             state.order[currentCellOrderIndex] = state.order[targetIndex];
             state.order[targetIndex] = action.payload.id;
 
-            return;
+            return state;
         case CellsActionTypes.DELETE_CELL:
             // delete cell inside the order array
             state.order = state.order.filter(cellId => cellId !== action.payload);
             // delete cell data from the data object
             delete state.data[action.payload];
-            return;
+            return state;
         case CellsActionTypes.INSERT_CELL_BEFORE:
             // basic type check with the Cell type 
             const cell: Cell = {
@@ -57,10 +57,10 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
                 state.order.splice(foundIndex, 0, cell.id);
             };
 
-            return;
+            return state;
         case CellsActionTypes.UPDATE_CELL:
             state.data[action.payload.id].content =  action.payload.content;
-            return;
+            return state;
         default:
             return state;
     }
