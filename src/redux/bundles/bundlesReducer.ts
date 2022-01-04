@@ -7,7 +7,7 @@ export interface BundlesState {
         loading: boolean;
         code: string;
         error: string;
-    }
+    } | undefined
 }
 
 const initialState: BundlesState = {}
