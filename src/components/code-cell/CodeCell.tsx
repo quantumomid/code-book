@@ -6,6 +6,7 @@ import { Cell } from "../../redux/cells/cellsType";
 import { useCellActions } from "../../hooks/useCellActions";
 import { useBundleActions } from "../../hooks/useBundleActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import "./CodeCell.css";
 
 interface CodeCellProps {
     cell: Cell
@@ -19,6 +20,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     console.log(bundle);
 
     useEffect(() => {
+        if(!bundle) {
+            createBundle(cell.id, cell.content);
+            return;
+        }
+
         const timer = setTimeout(async() => {
             createBundle(cell.id, cell.content);
         }, 1500);
@@ -34,7 +40,17 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
                 <Resizable direction="horizontal">
                     <CodeEditor initialValue={cell.content} onChange={(value) => updateCell(cell.id, value)} />
                 </Resizable>
-                { bundle && <CodePreview code={bundle.code} bundlingError={bundle.error}/> }
+                <div className="progress-wrapper">
+                    {
+                        !bundle || bundle.loading
+                            ?   <div className="progress-cover">
+                                    <progress className="progress is-small is-primary" max="100">
+                                        Loading
+                                    </progress>
+                                </div>
+                            : <CodePreview code={bundle.code} bundlingError={bundle.error}/>
+                    }
+                </div>
             </div>
         </Resizable>
     );
