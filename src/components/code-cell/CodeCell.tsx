@@ -28,12 +28,21 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
         // Add show function as first element so that each cell has access to it
         const cumulativeCode = [
             `
+                import _React from "react";
+                import _ReactDOM from "react-dom";
+
                 const show = (value) => {
-                    
+                    const rootDiv = document.getElementById("root");
                     if (typeof value === "object"){
-                        document.getElementById("root").innerHTML = JSON.stringify(value);
+                        if(value.$$typeof && value.props){
+                        // if React i.e. JSX code
+                            _ReactDOM.render(value, rootDiv)
+                        } else {
+                        // if just plain object NOT jsx
+                            rootDiv.innerHTML = JSON.stringify(value);
+                        }
                     } else {
-                        document.getElementById("root").innerHTML = value;
+                        rootDiv.innerHTML = value;
                     }
                 };
             `,
