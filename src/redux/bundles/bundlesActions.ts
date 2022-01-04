@@ -4,14 +4,12 @@ import { BundlesActionTypes } from "./bundlesActionTypes";
 import { Action } from "./bundlesTypes";
 
 
-export const createBundle = (cellId: string, input: string) => {
-
-    return async (dispatch: Dispatch<Action>) => {
+export const createBundle = (cellId: string, input: string) => async (dispatch: Dispatch<Action>) => {
 
         dispatch({
             type: BundlesActionTypes.BUNDLE_START,
             payload: {
-                cellId: cellId
+                cellId
             }
         })
 
@@ -20,12 +18,11 @@ export const createBundle = (cellId: string, input: string) => {
         dispatch({
             type: BundlesActionTypes.BUNDLE_COMPLETE,
             payload: {
-                cellId: cellId,
+                cellId,
                 bundle: {
                     code: result.code,
                     error: result.err
                 }
             }
         })
-    }
 }
