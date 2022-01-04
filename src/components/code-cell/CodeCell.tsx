@@ -26,30 +26,41 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
         // Add each of the previous code cells up to and including the current code cell
         // Add show function as first element so that each cell has access to it
-        const cumulativeCode = [
-            `
-                import _React from "react";
-                import _ReactDOM from "react-dom";
+        const showFunc = `
+            import _React from "react";
+            import _ReactDOM from "react-dom";
 
-                const show = (value) => {
-                    const rootDiv = document.getElementById("root");
-                    if (typeof value === "object"){
-                        if(value.$$typeof && value.props){
-                        // if React i.e. JSX code
-                            _ReactDOM.render(value, rootDiv)
-                        } else {
-                        // if just plain object NOT jsx
-                            rootDiv.innerHTML = JSON.stringify(value);
-                        }
+            var show = (value) => {
+                const rootDiv = document.getElementById("root");
+                if (typeof value === "object"){
+                    if(value.$$typeof && value.props){
+                    // if React i.e. JSX code
+                        _ReactDOM.render(value, rootDiv)
                     } else {
-                        rootDiv.innerHTML = value;
+                    // if just plain object NOT jsx
+                        rootDiv.innerHTML = JSON.stringify(value);
                     }
-                };
-            `,
-        ];
+                } else {
+                    rootDiv.innerHTML = value;
+                }
+            };
+        `
+        // For reinitialising show function to overwrite the previous calls from previous code cells!
+        const showFuncNoop = "var show = () => {}";
+
+        const cumulativeCode = [];
 
         for (let cel of orderedCells) {
             if(cel.type === "code") {
+
+                // Cancelling show calls for any previous code for code cells 
+                // with comulated code
+                if (cel.id === cell.id){
+                    cumulativeCode.push(showFunc);
+                } else {
+                    cumulativeCode.push(showFuncNoop);
+                }
+                
                 cumulativeCode.push(cel.content);
             }
             if (cel.id === cell.id) break;
