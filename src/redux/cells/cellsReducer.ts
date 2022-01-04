@@ -42,7 +42,7 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             // delete cell data from the data object
             delete state.data[action.payload];
             return state;
-        case CellsActionTypes.INSERT_CELL_BEFORE:
+        case CellsActionTypes.INSERT_CELL_AFTER:
             // basic type check with the Cell type 
             const cell: Cell = {
                 content: "",
@@ -56,9 +56,9 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             //Take care of situation where no index found (findIndex returns -1 when no match found)
             // Just push to end in that case
             if(foundIndex < 0) {
-                state.order.push(cell.id)
+                state.order.unshift(cell.id)
             } else{
-                state.order.splice(foundIndex, 0, cell.id);
+                state.order.splice(foundIndex + 1, 0, cell.id);
             };
 
             return state;
