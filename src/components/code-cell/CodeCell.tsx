@@ -25,7 +25,20 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
         const orderedCells = order.map(cellId => data[cellId]);
 
         // Add each of the previous code cells up to and including the current code cell
-        const cumulativeCode = [];
+        // Add show function as first element so that each cell has access to it
+        const cumulativeCode = [
+            `
+                const show = (value) => {
+                    
+                    if (typeof value === "object"){
+                        document.getElementById("root").innerHTML = JSON.stringify(value);
+                    } else {
+                        document.getElementById("root").innerHTML = value;
+                    }
+                };
+            `,
+        ];
+
         for (let cel of orderedCells) {
             if(cel.type === "code") {
                 cumulativeCode.push(cel.content);
