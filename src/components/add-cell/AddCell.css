@@ -9,11 +9,6 @@
     opacity: 1;
 }
 
-.add-cell:active{
-    opacity: 0 !important;
-    transition: opacity 0s
-}
-
 /* Notice NO space because the selector targets when BOTH classes exists */
 .add-cell.force-visible {
     opacity: 1;
