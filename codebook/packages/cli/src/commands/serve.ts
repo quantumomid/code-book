@@ -2,6 +2,8 @@ import path from "path";
 import { Command } from "commander";
 import { serve } from "local-api";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export const serveCommand = new Command()
     .command("serve [filename]")
     .description("Open a file for editing")
@@ -12,7 +14,7 @@ export const serveCommand = new Command()
             const dir = path.join(process.cwd(), path.dirname(filename));
             // console.log("ABSOLUTE PATH:", dir);
             // console.log("Extracted FILENAME", path.basename(filename));
-            await serve(parseInt(options.port), path.basename(filename), dir);
+            await serve(parseInt(options.port), path.basename(filename), dir, !isProduction);
             console.log(`Server running successfully with ${filename} at http://localhost:${options.port}.`)
         } catch (error: any) {
 

@@ -8,8 +8,6 @@ import store from "./redux/store";
 const App: React.FC = () => {
     return (
         <Provider store={store}>
-            {/* <CodeCell /> */}
-            {/* <TextEditor /> */}
             <CellList />
         </Provider>
     );
