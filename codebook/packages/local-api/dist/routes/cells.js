@@ -14,21 +14,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCellsRouter = void 0;
 const express_1 = __importDefault(require("express"));
+const promises_1 = __importDefault(require("fs/promises"));
+const path_1 = __importDefault(require("path"));
 const createCellsRouter = (filename, dir) => {
     const router = express_1.default.Router();
+    // Body parsing middleware:
+    router.use(express_1.default.json());
+    const fullPath = path_1.default.join(dir, filename);
     router.get("/cells", (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-        // Check if cell storage file exists 
-        // If does not exist then add a default list of cells 
-        // Read the file 
+        try {
+            // Read the file 
+            const result = yield promises_1.default.readFile(fullPath, { encoding: "utf-8" });
+            response.send(JSON.parse(result));
+        }
+        catch (error) {
+            // If error thrown then check if file exists
+            if (error.code === "ENOENT") {
+                // If does not exist then add a default list of cells 
+                yield promises_1.default.writeFile(fullPath, "[]", "utf-8");
+                response.send([]);
+            }
+            else {
+                throw error;
+            }
+        }
         // Parse a list of cells out of it 
         // Send list of cells back to the browser 
     }));
     router.post("/cells", (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-        // Make sure the file exists 
-        // If not, create it
+        // Make sure the file exists - If not, create it
+        // DONE automatically by fs
         // Take the list of cells from the request object
         // Serialise them
+        const { cells } = request.body;
         // Write the cells into the file
+        yield promises_1.default.writeFile(fullPath, JSON.stringify(cells), "utf-8");
+        response.send({ status: "ok" });
     }));
     return router;
 };
