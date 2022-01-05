@@ -1,3 +1,4 @@
+import path from "path";
 import { Command } from "commander";
 import { serve } from "local-api";
 
@@ -7,5 +8,8 @@ export const serveCommand = new Command()
     .option("-p, --port <number>", "Port to run server on", "4007")
     .action((filename = "notebook.js", options: { port:string }) => {
         // console.log({ filename, options });
-        serve(parseInt(options.port), filename, "/");
+        const dir = path.join(process.cwd(), path.dirname(filename));
+        // console.log("ABSOLUTE PATH:", dir);
+        // console.log("Extracted FILENAME", path.basename(filename));
+        serve(parseInt(options.port), path.basename(filename), dir);
     });
