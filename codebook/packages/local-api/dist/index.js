@@ -12,8 +12,9 @@ const serve = (port, filename, dir) => {
     //     that_file_is_in_dir: dir
     // });
     const app = (0, express_1.default)();
-    app.listen(port, () => {
-        console.log("Listening on port: ", port);
+    // Add custom promise to allow the express server to work with the async-await syntax
+    return new Promise((resolve, reject) => {
+        app.listen(port, resolve).on("error", reject);
     });
 };
 exports.serve = serve;

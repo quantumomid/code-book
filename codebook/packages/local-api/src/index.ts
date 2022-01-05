@@ -8,7 +8,9 @@ export const serve = (port:number, filename:string, dir:string) => {
     // });
 
     const app = express();
-    app.listen(port, () => {
-        console.log("Listening on port: ", port);
-    });
+
+    // Add custom promise to allow the express server to work with the async-await syntax
+    return new Promise<void>((resolve, reject) => {
+        app.listen(port, resolve).on("error", reject);
+    })
 };
