@@ -27,7 +27,7 @@ exports.serveCommand = new commander_1.Command()
         // console.log("ABSOLUTE PATH:", dir);
         // console.log("Extracted FILENAME", path.basename(filename));
         yield (0, local_api_1.serve)(parseInt(options.port), path_1.default.basename(filename), dir);
-        console.log(`Server running successfully at http://localhost:${options.port} with ${filename}.`);
+        console.log(`Server running successfully with ${filename} at http://localhost:${options.port}.`);
     }
     catch (error) {
         if (error.code === "EADDRINUSE") {
