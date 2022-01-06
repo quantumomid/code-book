@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import CodeEditor from "../code-editor/CodeEditor";
 import CodePreview from "../preview/CodePreview";
 import Resizable from "../resizable/Resizable";
-import { Cell } from "../../redux/cells/cellsType";
+import { Cell } from "../../redux/cells/cellsTypes";
 import { useCellActions } from "../../hooks/useCellActions";
 import { useBundleActions } from "../../hooks/useBundleActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";

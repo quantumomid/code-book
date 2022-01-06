@@ -1,5 +1,5 @@
 import React from "react";
-import { Cell } from "../../redux/cells/cellsType";
+import { Cell } from "../../redux/cells/cellsTypes";
 import ActionBar from "../action-bar/ActionBar";
 import CodeCell from "../code-cell/CodeCell";
 import TextEditor from "../text-editor/TextEditor";

@@ -1,5 +1,5 @@
 import { CellsActionTypes } from "./cellsActionTypes";
-import { Cell, Action } from "./cellsType";
+import { Cell, Action } from "./cellsTypes";
 import produce from "immer";
 
 export interface CellsState {
@@ -64,6 +64,21 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             return state;
         case CellsActionTypes.UPDATE_CELL:
             state.data[action.payload.id].content =  action.payload.content;
+            return state;
+        case CellsActionTypes.FETCH_CELLS:
+            state.loading = true;
+            state.error = null;
+            return state;
+        case CellsActionTypes.FETCH_CELLS_COMPLETE:
+            state.order = action.payload.map(cell => cell.id);
+            state.data = action.payload.reduce((accumulator, currentCell) => {
+                accumulator[currentCell.id] = currentCell;
+                return accumulator;
+            }, {} as CellsState["data"]);
+            return state;
+        case CellsActionTypes.FETCH_CELLS_ERROR:
+            state.loading = false;
+            state.error = action.payload;
             return state;
         default:
             return state;

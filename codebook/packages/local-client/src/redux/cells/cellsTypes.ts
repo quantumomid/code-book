@@ -40,4 +40,18 @@ export interface UpdateCellAction {
     };
 }
 
-export type Action = MoveCellAction | DeleteCellAction | InsertCellAfterAction | UpdateCellAction;
+export interface FetchCellsAction {
+    type: CellsActionTypes.FETCH_CELLS
+}
+
+export interface FetchCellsCompleteAction {
+    type: CellsActionTypes.FETCH_CELLS_COMPLETE,
+    payload: Cell[]
+}
+
+export interface FetchCellsErrorAction {
+    type: CellsActionTypes.FETCH_CELLS_ERROR,
+    payload: string
+}
+
+export type Action = MoveCellAction | DeleteCellAction | InsertCellAfterAction | UpdateCellAction | FetchCellsAction | FetchCellsCompleteAction | FetchCellsErrorAction;
