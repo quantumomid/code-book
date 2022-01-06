@@ -10,7 +10,10 @@ export const serve = (port:number, filename:string, dir:string, useProxy:boolean
     //     that_file_is_in_dir: dir
     // });
 
+    
     const app = express();
+
+    app.use(createCellsRouter(filename, dir));
 
     if(useProxy) {
         app.use(createProxyMiddleware({
@@ -23,8 +26,6 @@ export const serve = (port:number, filename:string, dir:string, useProxy:boolean
         // Static middleware to give local API access to the React files
         app.use(express.static(path.dirname(packagePath)));
     }
-
-    app.use(createCellsRouter(filename, dir));
 
     // Add custom promise to allow the express server to work with the async-await syntax
     return new Promise<void>((resolve, reject) => {

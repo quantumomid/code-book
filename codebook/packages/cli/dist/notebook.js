@@ -1,0 +1,1 @@
+[{"content":"# Omids New Project\n","type":"text","id":"843ng"},{"content":"const omid = \"omid\";","type":"code","id":"ovpbp"}]
