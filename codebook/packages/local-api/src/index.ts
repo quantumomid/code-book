@@ -22,7 +22,7 @@ export const serve = (port:number, filename:string, dir:string, useProxy:boolean
             logLevel: "silent",
         }))
     } else {
-        const packagePath = require.resolve("local-client/build/index.html");
+        const packagePath = require.resolve("@codebookjs/local-client/build/index.html");
         // Static middleware to give local API access to the React files
         app.use(express.static(path.dirname(packagePath)));
     }

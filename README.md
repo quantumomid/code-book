@@ -7,8 +7,17 @@
 
 ## Local Express API
 
+Proxy runs from `http://localhost:4007/`
 
 ## Local Public API
 
 
 ## React App
+
+
+## Quantum-Tiny-Npm-Deploy (Test Project - First NPM Package Deployment)
+
+This was a small project deploying a small test project to npm 
+Here is the link to the package in NPM: https://www.npmjs.com/package/quantum-tiny-npm-deploy
+Can run `npx quantum-tiny-npm-deploy` to run on your local system
+Or to install as a local package: `npm install -g quantum-tiny-npm-deploy`
