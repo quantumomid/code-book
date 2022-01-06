@@ -1,5 +1,9 @@
 # Code Book Project 
 
+- Published on npm - https://www.npmjs.com/package/codebookjs
+
+- To try run `npx codebookjs serve` and go to `http://localhost:4007/` on your browser
+
 - Use [lerna](https://github.com/lerna/lerna): a tool for managing JS projects with multiple packages
 
 ## CLI 
