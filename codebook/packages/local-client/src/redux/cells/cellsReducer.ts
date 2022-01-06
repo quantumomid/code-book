@@ -80,6 +80,9 @@ const cellsReducer = produce((state: CellsState = initialState, action: Action) 
             state.loading = false;
             state.error = action.payload;
             return state;
+        case CellsActionTypes.SAVE_CELLS_ERROR:
+            state.error = action.payload;
+            return state;
         default:
             return state;
     }

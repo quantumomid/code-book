@@ -54,4 +54,9 @@ export interface FetchCellsErrorAction {
     payload: string
 }
 
-export type Action = MoveCellAction | DeleteCellAction | InsertCellAfterAction | UpdateCellAction | FetchCellsAction | FetchCellsCompleteAction | FetchCellsErrorAction;
+export interface SaveCellsErrorAction {
+    type: CellsActionTypes.SAVE_CELLS_ERROR,
+    payload: string
+}
+
+export type Action = MoveCellAction | DeleteCellAction | InsertCellAfterAction | UpdateCellAction | FetchCellsAction | FetchCellsCompleteAction | FetchCellsErrorAction | SaveCellsErrorAction;
